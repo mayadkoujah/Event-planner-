@@ -1,0 +1,82 @@
+status = 0
+eventList = []
+studentList = []
+
+while status != 5:  
+    if status > 5:
+        print('Enter a selection between 1 and 5')
+    print("\t\tMain Menu")
+    print("\t\t=========")
+    print("\t\t1. Add Event")
+    print("\t\t2. Register Student for an Event")
+    print("\t\t3. View all Events")
+    print("\t\t4. Show all Attendees of an Event")
+    print("\t\t5. EXIT")
+    status = int(input("Enter your choice: "))
+
+    if status == 1:
+        print("New Event")
+
+        id = int(input("Enter a unique ID for this event: "))
+        name = input("Enter the name of this event: ")
+        date = input("Enter the date for this event(mm/dd/yy): ")
+        time = input("Enter starting time (hh:mm): ")
+        location = input("Enter location: ")
+        conflict = False
+
+        for e in eventList:
+            if e[0] == id:
+                conflict = True
+                print("This ID already exists")
+                break
+            elif e[3] == time and e[4] == location and e[2] == date:
+                conflict = True
+                print("Event already exists at this time, location, or date please check your booking information.")
+                break
+        else:
+            event = [id, name, date, time, location]
+            eventList.append(event)
+            print("Event added!")
+
+    if status == 2:
+        print("Registered Event")
+        search_id = int(input("Enter Event ID: "))
+        found = False
+        for event in eventList:
+            if event[0] == search_id:
+                found = True
+                break
+
+        if found:
+            student_id = int(input("Enter student ID: "))
+            already_registered = False
+            for s in studentList:
+                if s[0] == search_id and s[1] == student_id:
+                    already_registered = True
+                    break
+
+            if already_registered:
+                print("Student already registered")
+            else:
+                student_name = input("Enter the name of the student: ")
+                student_and_id = [search_id, student_id, student_name]
+                studentList.append(student_and_id)
+                print(student_and_id)
+        else:
+            print("Event does not exist")
+
+    if status == 3:
+        print("Id\tName\tDate\t\tTime\t\tLocation")
+        for item in eventList:
+            print(f"{item[0]}\t{item[1]}\t{item[2]}\t{item[3]}\t{item[4]}")
+    if status == 4:
+        search_id = int(input("Enter Event ID: "))
+        print(f'---students attending event: {search_id}---')
+
+        for student in studentList:
+            if student[0] == search_id:
+                print(f'student ID: {student[1]}\tName: {student[2]}')
+
+    if status == 5:
+        print("Exiting...")
+        break
